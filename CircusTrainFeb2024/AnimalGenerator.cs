@@ -2,6 +2,8 @@
 
 public static class AnimalGenerator
 {
+    private static Random random = new Random();
+
     public static List<IAnimal> GenerateAnimals(int count)
     {
         var animals = new List<IAnimal>();
@@ -14,40 +16,9 @@ public static class AnimalGenerator
 
     public static IAnimal RandomAnimal()
     {
-        Random random = new Random(DateTime.Now.Millisecond);
+        bool isCarnivore = random.Next(0, 2) == 0;
+        int size = (random.Next(0, 3) + 1) * 2 - 1;
 
-        if (random.Next(0, 1) == 1)
-        {
-            int randomNum = random.Next(0, 2);
-            if (randomNum == 0)
-            {
-                return new Carnivore(1);
-            }
-            else if (randomNum == 1)
-            {
-                return new Carnivore(3);
-            }
-            else
-            {
-                return new Carnivore(5);
-            }
-            
-        }
-        else
-        {
-            int randomNum = random.Next(0, 2);
-            if (randomNum == 0)
-            {
-                return new Herbivore(1);
-            }
-            else if (randomNum == 1)
-            {
-                return new Herbivore(3);
-            }
-            else
-            {
-                return new Herbivore(5);
-            }
-        }
+        return isCarnivore ? new Carnivore(size) : new Herbivore(size);
     }
 }

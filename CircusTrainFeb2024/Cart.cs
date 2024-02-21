@@ -2,26 +2,31 @@
 
 public class Cart
 {
-    List<IAnimal> animals = new List<IAnimal>(10);
+    public List<IAnimal> animals { get; } = new List<IAnimal>(10);
 
     public int RemainingSpace()
     {
-        return 10 - animals.Count;
+        int usedSpace = 0;
+        foreach (var animal in animals)
+        {
+            usedSpace += animal.size;
+        }
+        return 10 - usedSpace;
     }
 
     public bool CanBePlaced(IAnimal animal)
     {
-        foreach (IAnimal spot in animals)
+        if (animal.size > this.RemainingSpace())
         {
-            if (spot.diet == Diet.Carnivore)
+            return false;
+        }
+
+        foreach (var spot in animals)
+        {
+            if ((spot.diet == Diet.Carnivore && spot.size >= animal.size) ||
+                (animal.diet == Diet.Carnivore && animal.size >= spot.size))
             {
-                if (spot.size > animal.size)
-                    return false;
-            }
-            else
-            {
-                if (animal.size > this.RemainingSpace())
-                    return false;
+                return false;
             }
         }
 
@@ -30,9 +35,9 @@ public class Cart
 
     public void PlaceAnimal(IAnimal animal)
     {
-        for (int i = 0; i < animal.size; i++)
+        if (CanBePlaced(animal))
         {
-            animals.Insert(10 - this.RemainingSpace() + i, animal);
+            animals.Add(animal);
         }
     }
 

@@ -1,4 +1,6 @@
-﻿namespace CircusTrainFeb2024;
+﻿using System.Xml.Linq;
+
+namespace CircusTrainFeb2024;
 
 public class Train
 {
@@ -55,32 +57,83 @@ public class Train
     public void QuickPlace()
     {
         this.PreSortAnimals();
-        
+        carts = new List<Cart>();
+
         foreach (IAnimal animal in animals)
         {
             Cart newCart = new Cart();
             bool newCartMade = true;
             newCart.PlaceAnimal(animal);
-            foreach (Cart cart in carts)
+            if (carts.Count > 0)
             {
-                if (cart.CanBePlaced(animal))
+                foreach (Cart cart in carts)
                 {
-                    cart.PlaceAnimal(animal);
-                    newCartMade = false;
-                    break;
+                    if (cart.CanBePlaced(animal))
+                    {
+                        cart.PlaceAnimal(animal);
+                        newCartMade = false;
+                        break;
+                    }
                 }
             }
+            else
+            {
+                carts.Add(newCart);
+            }
+
             if (newCartMade)
             {
                 carts.Add(newCart);
             }
         }
-
     }
 
-    public void BestPlace()
+    public void DisplayTrain()
     {
-        this.PreSortAnimals();
+        Console.WriteLine("Train");
+        foreach (var cart in carts)
+        {
+            Console.WriteLine();
+            Console.WriteLine("Cart");
+            bool first = true;
+            foreach (var animal in cart.animals)
+            {
+                if (!first)
+                    Console.Write(" - ");
+                first = false;
+                if (animal.diet == Diet.Carnivore)
+                {
+                    Console.Write("C" + animal.size);
+                }
+                else
+                {
+                    Console.Write("H" + animal.size);
+                }
+            }
+        }
+    }
 
+    public void OutputToFile()
+    {
+        var train = new XElement("Train");
+
+        foreach (var cart in carts)
+        {
+            var cartElement = new XElement("Cart");
+            foreach (var animal in cart.animals)
+            {
+                var animalElement = new XElement("Animal",
+                    new XAttribute("type", animal.diet == Diet.Carnivore ? "Carnivore" : "Herbivore"),
+                    new XAttribute("size", animal.size.ToString()));
+                cartElement.Add(animalElement);
+            }
+            train.Add(cartElement);
+        }
+
+        var doc = new XDocument(train);
+        string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Train.xml");
+        doc.Save(filePath);
+        Console.Write("File can be found at: ");
+        Console.Write(filePath);
     }
 }
