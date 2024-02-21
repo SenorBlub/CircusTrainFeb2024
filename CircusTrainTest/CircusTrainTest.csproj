@@ -21,4 +21,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CircusTrainFeb2024\CircusTrainFeb2024.csproj" />
+  </ItemGroup>
+
 </Project>
