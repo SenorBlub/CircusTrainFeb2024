@@ -75,16 +75,18 @@ public class Train
                         break;
                     }
                 }
+
+                if (newCartMade)
+                {
+                    carts.Add(newCart);
+                }
             }
             else
             {
                 carts.Add(newCart);
             }
 
-            if (newCartMade)
-            {
-                carts.Add(newCart);
-            }
+            
         }
     }
 

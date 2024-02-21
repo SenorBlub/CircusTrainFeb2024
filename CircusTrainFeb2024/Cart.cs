@@ -9,7 +9,7 @@ public class Cart
         int usedSpace = 0;
         foreach (var animal in animals)
         {
-            usedSpace += animal.size;
+            usedSpace += 1;
         }
         return 10 - usedSpace;
     }
@@ -37,7 +37,10 @@ public class Cart
     {
         if (CanBePlaced(animal))
         {
-            animals.Add(animal);
+            for (int i = 0; i < animal.size; i++)
+            {
+                animals.Add(animal);
+            }
         }
     }
 

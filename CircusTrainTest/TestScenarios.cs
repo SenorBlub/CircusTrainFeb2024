@@ -41,7 +41,7 @@ namespace CircusTrainTest
             train.QuickPlace();
 
             //assert
-            Assert.Equal(4, train.carts.Count);
+            Assert.Equal(2, train.carts.Count);
         }
 
         [Fact]
@@ -61,7 +61,7 @@ namespace CircusTrainTest
             train.QuickPlace();
 
             //assert
-            Assert.Equal(3, train.carts.Count);
+            Assert.Equal(4, train.carts.Count);
         }
 
         [Fact]
