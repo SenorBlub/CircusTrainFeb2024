@@ -10,7 +10,7 @@ namespace CircusTrainFeb2024
     {
         public Diet diet { get; }
 
-        private int size { get; }
+        public int size { get; }
 
         public Carnivore(int _size)
         {
