@@ -6,7 +6,7 @@ public class Cart
 
     public int RemainingSpace()
     {
-        return animals.Count - 10;
+        return 10 - animals.Count;
     }
 
     public bool CanBePlaced(IAnimal animal)
@@ -15,7 +15,7 @@ public class Cart
         {
             if (spot.diet == Diet.Carnivore)
             {
-                if(spot.size > animal.size)
+                if (spot.size > animal.size)
                     return false;
             }
             else
@@ -24,6 +24,16 @@ public class Cart
                     return false;
             }
         }
+
         return true;
     }
+
+    public void PlaceAnimal(IAnimal animal)
+    {
+        for (int i = 0; i < animal.size; i++)
+        {
+            animals.Insert(10 - this.RemainingSpace() + i, animal);
+        }
+    }
+
 }

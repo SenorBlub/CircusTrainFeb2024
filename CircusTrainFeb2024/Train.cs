@@ -55,10 +55,30 @@ public class Train
     public void QuickPlace()
     {
         this.PreSortAnimals();
-
+        Cart newCart = new Cart();
+        bool newCartMade = false;
         foreach (IAnimal animal in animals)
         {
-            
+            foreach (Cart cart in carts)
+            {
+                if (cart.CanBePlaced(animal))
+                {
+                    //add animal to cart
+                    break;
+                }
+                else
+                {
+                    newCartMade = true;
+                    //add animal to newCart
+                    break;
+                }
+            }
+
+            if (newCartMade)
+            {
+                carts.Add(newCart);
+                newCartMade = false;
+            }
         }
 
     }
